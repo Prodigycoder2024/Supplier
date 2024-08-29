@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 18px;
+            text-align: left;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: navy;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Supplier Details</h2>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Value</th>
+    </tr>
+    <tr>
+        <td>Supplier Name</td>
+        <td>{{ supplier_data.supplier_name }}</td>
+    </tr>
+    <tr>
+        <td>Tax Organization Type</td>
+        <td>{{ supplier_data.tax_organization_type }}</td>
+    </tr>
+    <tr>
+        <td>Supplier Type</td>
+        <td>{{ supplier_data.supplier_type }}</td>
+    </tr>
+    <tr>
+        <td>Business Relationship</td>
+        <td>{{ supplier_data.business_relationship }}</td>
+    </tr>
+    <tr>
+        <td>Address Name</td>
+        <td>{{ supplier_data.address_name }}</td>
+    </tr>
+    <tr>
+        <td>Country</td>
+        <td>{{ supplier_data.country }}</td>
+    </tr>
+    <tr>
+        <td>Address Line 1</td>
+        <td>{{ supplier_data.address_line1 }}</td>
+    </tr>
+    <tr>
+        <td>City</td>
+        <td>{{ supplier_data.city }}</td>
+    </tr>
+    <tr>
+        <td>State</td>
+        <td>{{ supplier_data.state }}</td>
+    </tr>
+    <tr>
+        <td>County</td>
+        <td>{{ supplier_data.county }}</td>
+    </tr>
+    <tr>
+        <td>Procurement BU</td>
+        <td>{{ supplier_data.procurement_bu }}</td>
+    </tr>
+    <tr>
+        <td>Contact First Name</td>
+        <td>{{ supplier_data.contact_first_name }}</td>
+    </tr>
+    <tr>
+        <td>Contact Last Name</td>
+        <td>{{ supplier_data.contact_last_name }}</td>
+    </tr>
+    <tr>
+        <td>Contact Email</td>
+        <td>{{ supplier_data.contact_email }}</td>
+    </tr>
+    <tr>
+        <td>Phone Country Code</td>
+        <td>{{ supplier_data.phone_country_code }}</td>
+    </tr>
+    <tr>
+        <td>Phone Area Code</td>
+        <td>{{ supplier_data.phone_area_code }}</td>
+    </tr>
+    <tr>
+        <td>Phone</td>
+        <td>{{ supplier_data.phone }}</td>
+    </tr>
+</table>
+
+</body>
+</html>
