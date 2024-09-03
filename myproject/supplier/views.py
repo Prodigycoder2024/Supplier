@@ -2,7 +2,27 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import requests
 from .forms import SupplierForm
+from django.urls import reverse
+from urllib.parse import urlencode
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
+# Function to send email
+def send_email(sender_email, receiver_email, subject, body, smtp_server, smtp_port, smtp_username, smtp_password):
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = receiver_email
+    msg['Subject'] = subject
+    msg.attach(MIMEText(body, "plain"))
+
+    with smtplib.SMTP_SSL(smtp_server, smtp_port) as server:
+        server.login(smtp_username, smtp_password)
+        server.sendmail(sender_email, receiver_email, msg.as_string())
+
+    print("Email sent successfully!")
+
+# Function to create supplier
 def create_supplier(request):
     if request.method == 'POST':
         form = SupplierForm(request.POST)
@@ -29,12 +49,12 @@ def create_supplier(request):
             # Construct the SOAP request payload
             soap_payload = f"""
             <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-                              xmlns:typ="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/types/"
-                              xmlns:sup="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/"
-                              xmlns:sup1="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplierSites/"
-                              xmlns:sup2="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplierAddress/"
-                              xmlns:sup3="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplier/"
-                              xmlns:sup4="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplierContact/">
+                            xmlns:typ="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/types/"
+                            xmlns:sup="http://xmlns.oracle.com/apps/prc/poz/suppliers/supplierServiceV2/"
+                            xmlns:sup1="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplierSites/"
+                            xmlns:sup2="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplierAddress/"
+                            xmlns:sup3="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplier/"
+                            xmlns:sup4="http://xmlns.oracle.com/apps/flex/prc/poz/suppliers/supplierServiceV2/supplierContact/">
                 <soapenv:Header/>
                 <soapenv:Body>
                     <typ:createSupplier>
@@ -52,7 +72,7 @@ def create_supplier(request):
                                 <sup:City>{city}</sup:City>
                                 <sup:State>{state}</sup:State>
                                 <sup:County>{county}</sup:County>
-                                <sup:OrderingPurposeFlag>FALSE</sup:OrderingPurposeFlag>
+                                <sup:OrderingPurposeFlag>TRUE</sup:OrderingPurposeFlag>
                                 <sup:RemitToPurposeFlag>FALSE</sup:RemitToPurposeFlag>
                                 <sup:RFQOrBiddingPurposeFlag>TRUE</sup:RFQOrBiddingPurposeFlag>
                             </sup:SupplierAddresses>
@@ -94,12 +114,78 @@ def create_supplier(request):
             headers = {'Content-Type': 'text/xml;charset=UTF-8'}
             response = requests.post(wsdl_url, data=soap_payload, headers=headers, auth=('CSP_COMMON_USER1', 'CSP@Aug_2024'))
 
-            # Check the response and return a message
+            # Check the response and redirect to details page if successful
             if response.status_code == 200:
-                return HttpResponse("Supplier created successfully!")
+                # Send email to the supplier
+                send_email(
+                    sender_email="your_email@gmail.com",
+                    receiver_email=contact_email,
+                    subject="Welcome to Our Supplier Portal",
+                    body=f"""
+                    Dear {contact_first_name} {contact_last_name},
+
+                    We are pleased to inform you that your supplier account has been created successfully.
+
+                    Please do not hesitate to reach out if you have any questions.
+
+                    Best regards,
+                    Your Company
+                    """,
+                    smtp_server="smtp.gmail.com",
+                    smtp_port=465,
+                    smtp_username="sauravsarkar1718@gmail.com",
+                    smtp_password="uuvi vdwc yuwz jqao"  # Replace with your actual app password
+                )
+
+                # Pass the necessary data for displaying supplier details
+                supplier_data = {
+                    'supplier_name': supplier_name,
+                    'tax_organization_type': tax_organization_type,
+                    'supplier_type': supplier_type,
+                    'business_relationship': business_relationship,
+                    'address_name': address_name,
+                    'country': country,
+                    'address_line1': address_line1,
+                    'city': city,
+                    'state': state,
+                    'county': county,
+                    'procurement_bu': procurement_bu,
+                    'contact_first_name': contact_first_name,
+                    'contact_last_name': contact_last_name,
+                    'contact_email': contact_email,
+                    'phone_country_code': phone_country_code,
+                    'phone_area_code': phone_area_code,
+                    'phone': phone
+                }
+                return redirect(reverse('supplier_details') + '?' + urlencode(supplier_data))
             else:
                 return HttpResponse(f"Failed to create supplier. Status code: {response.status_code} | Response: {response.text}")
     else:
         form = SupplierForm()
 
     return render(request, 'create_supplier.html', {'form': form})
+
+def supplier_details(request):
+    # Extract supplier data from the request
+    supplier_data = {
+        'supplier_name': request.GET.get('supplier_name'),
+        'tax_organization_type': request.GET.get('tax_organization_type'),
+        'supplier_type': request.GET.get('supplier_type'),
+        'business_relationship': request.GET.get('business_relationship'),
+        'address_name': request.GET.get('address_name'),
+        'country': request.GET.get('country'),
+        'address_line1': request.GET.get('address_line1'),
+        'city': request.GET.get('city'),
+        'state': request.GET.get('state'),
+        'county': request.GET.get('county'),
+        'procurement_bu': request.GET.get('procurement_bu'),
+        'contact_first_name': request.GET.get('contact_first_name'),
+        'contact_last_name': request.GET.get('contact_last_name'),
+        'contact_email': request.GET.get('contact_email'),
+        'phone_country_code': request.GET.get('phone_country_code'),
+        'phone_area_code': request.GET.get('phone_area_code'),
+        'phone': request.GET.get('phone')
+    }
+
+    # Render the supplier details page with the supplier_data context
+    return render(request, 'supplier_details.html', {'supplier_data': supplier_data})
