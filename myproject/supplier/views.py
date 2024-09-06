@@ -118,7 +118,7 @@ def create_supplier(request):
             if response.status_code == 200:
                 # Send email to the supplier
                 send_email(
-                    sender_email="your_email@gmail.com",
+                    sender_email="Gautam.work98@gmail.com",
                     receiver_email=contact_email,
                     subject="Welcome to Our Supplier Portal",
                     body=f"""
@@ -133,8 +133,8 @@ def create_supplier(request):
                     """,
                     smtp_server="smtp.gmail.com",
                     smtp_port=465,
-                    smtp_username="sauravsarkar1718@gmail.com",
-                    smtp_password="uuvi vdwc yuwz jqao"  # Replace with your actual app password
+                    smtp_username="Gautam.work98@gmail.com",
+                    smtp_password="bhpb uzpm vkfv uzod"  # Replace with your actual app password
                 )
 
                 # Pass the necessary data for displaying supplier details
