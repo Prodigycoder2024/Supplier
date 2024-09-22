@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import requests
-from .forms import SupplierForm
+from .forms import *
 from django.urls import reverse
 from urllib.parse import urlencode
 import smtplib
@@ -189,3 +189,67 @@ def supplier_details(request):
 
     # Render the supplier details page with the supplier_data context
     return render(request, 'supplier_details.html', {'supplier_data': supplier_data})
+
+
+def create_requisition(request):
+    if request.method == 'POST':
+        form = RequisitionForm(request.POST)
+        if form.is_valid():
+            # Extract form data
+            data = form.cleaned_data
+
+            # Prepare the payload for the API request
+            payload = {
+                "RequisitioningBUId": 300000046987012,
+                "PreparerId": 300000047340498,
+                "ExternallyManagedFlag": False,
+                "Description": data['description'],
+                "Justification": data['justification'],
+                "lines": [
+                    {
+                        "LineNumber": data['line_number'],
+                        "LineTypeCode": data['line_type_code'],
+                        "CategoryName": data['category_name'],
+                        "ItemDescription": data['item_description'],
+                        "Item": None,
+                        "Quantity": data['quantity'],
+                        "Price": data['price'],
+                        "CurrencyCode": data['currency_code'],
+                        "UOM": data['uom'],
+                        "RequesterId": data['requester_id'],
+                        "DestinationTypeCode": "EXPENSE",
+                        "DestinationOrganizationId": data['destination_organization_id'],
+                        "DeliverToCustomerLocationId": None,
+                        "DeliverToLocationId": data['deliver_to_location_id'],
+                        "RequestedDeliveryDate": str(data['requested_delivery_date']),
+                        "distributions": [
+                            {
+                                "Quantity": data['quantity'],
+                                "DistributionNumber": 1
+                            }
+                        ]
+                    }
+                ]
+            }
+
+            # API endpoint URL
+            url = "https://exsp-dev28.ds-fa.oraclepdemos.com:443/fscmRestApi/resources/11.13.18.05/purchaseRequisitions"
+
+            # Send the POST request to Oracle API
+            response = requests.post(
+                url,
+                json=payload,
+                auth=('username', 'password'),  # Replace with actual username and password
+                headers={'Content-Type': 'application/json'}
+            )
+
+            # Handle the API response
+            if response.status_code == 201:
+                return HttpResponse("Requisition created successfully!")
+            else:
+                return HttpResponse(f"Failed to create requisition. Status code: {response.status_code}, Response: {response.text}")
+
+    else:
+        form = RequisitionForm()
+
+    return render(request, 'create_requisition.html', {'form': form})
