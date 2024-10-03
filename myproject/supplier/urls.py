@@ -9,4 +9,6 @@ urlpatterns = [
     path('', create_supplier, name='create_supplier'),
     path('supplier-details/', supplier_details, name='supplier_details'),
     path('create-requisition/', views.create_requisition, name='create_requisition'),
+    path('fetch-suppliers/', views.fetch_and_save_suppliers, name='fetch_and_save_suppliers'),
+    # path('suppliers/', views.display_suppliers, name='display_suppliers'),
 ]

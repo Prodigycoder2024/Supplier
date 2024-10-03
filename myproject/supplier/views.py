@@ -7,6 +7,65 @@ from urllib.parse import urlencode
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from django.http import JsonResponse
+from django.views import View
+from django.utils.dateparse import parse_datetime
+from .models import *
+from requests.auth import HTTPBasicAuth
+
+
+
+def fetch_and_save_suppliers(request):
+    url = "https://elbq-dev2.fa.us2.oraclecloud.com/fscmRestApi/resources/11.13.18.05/suppliers?limit=1000"
+    username = 'mfg_portal'
+    password = 'Oracle@123'
+
+    # Sending GET request to the API
+    response = requests.get(url, auth=HTTPBasicAuth(username, password))
+    
+    if response.status_code == 200:
+        data = response.json()
+        suppliers = data.get('items', [])  # Assuming the supplier list is under the 'items' key
+        
+        # Loop through the supplier data and save to the database
+        for supplier_data in suppliers:
+            Supplier.objects.update_or_create(
+                supplier_id=supplier_data['SupplierId'],
+                defaults={
+                    'supplier_party_id': supplier_data.get('SupplierPartyId', None),
+                    'supplier_name': supplier_data.get('Supplier', ''),
+                    'supplier_number': supplier_data.get('SupplierNumber', ''),
+                    'alternate_name': supplier_data.get('AlternateName', None),
+                    'tax_organization_type_code': supplier_data.get('TaxOrganizationTypeCode', ''),
+                    'tax_organization_type': supplier_data.get('TaxOrganizationType', ''),
+                    'supplier_type_code': supplier_data.get('SupplierTypeCode', ''),
+                    'supplier_type': supplier_data.get('SupplierType', ''),
+                    'inactive_date': supplier_data.get('InactiveDate', None),
+                    'status': supplier_data.get('Status', ''),
+                    'business_relationship_code': supplier_data.get('BusinessRelationshipCode', ''),
+                    'business_relationship': supplier_data.get('BusinessRelationship', ''),
+                    'parent_supplier_id': supplier_data.get('ParentSupplierId', None),
+                    'parent_supplier': supplier_data.get('ParentSupplier', ''),
+                    'parent_supplier_number': supplier_data.get('ParentSupplierNumber', ''),
+                    'creation_date': supplier_data.get('CreationDate', None),
+                    'created_by': supplier_data.get('CreatedBy', ''),
+                    'last_update_date': supplier_data.get('LastUpdateDate', None),
+                    'last_updated_by': supplier_data.get('LastUpdatedBy', ''),
+                   
+                }
+            )
+
+        # After saving, retrieve all suppliers from the database
+        suppliers = Supplier.objects.all()
+
+        # Render suppliers on the frontend
+        return render(request, 'suppliers.html', {'suppliers': suppliers})
+
+    else:
+        # In case of an error, you could still render an empty table or an error message
+        return render(request, 'suppliers.html', {'suppliers': [], 'error': 'Failed to fetch data from API'})
+
+
 
 # Function to send email
 def send_email(sender_email, receiver_email, subject, body, smtp_server, smtp_port, smtp_username, smtp_password):
