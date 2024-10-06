@@ -1,0 +1,12 @@
+nav {
+    background: linear-gradient(to right, #326188, #5e9fd1);
+    padding: 15px; /* Increased padding for a more spacious look */
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Slightly deeper shadow */
+}
+
+nav .logo {
+    color: white;
+    font-size: 28px; /* Increased font size for better visibility */
+    font-weight: bold;
+}
