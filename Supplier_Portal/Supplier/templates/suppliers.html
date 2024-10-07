@@ -1,0 +1,37 @@
+    {% load static %}
+    {% include 'navbar.html' %}
+    {% block content %}
+    <h1>Suppliers List</h1>
+
+    <form method="GET" action="{% url 'display_suppliers' %}">
+        <label for="q">Search by Supplier Number:</label>
+        <input type="text" name="q" placeholder="Enter Supplier Number" value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Supplier Name</th>
+                <th>Supplier Number</th>
+                <th>Status</th>
+                <th>Creation Date</th>
+                <th>Last Updated By</th>
+                <th>website</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for supplier in suppliers %}
+            <tr>
+                <td>{{ supplier.supplier_name }}</td>
+                <td>{{ supplier.supplier_number }}</td>
+                <td>{{ supplier.status }}</td>
+                <td>{{ supplier.creation_date }}</td>
+                <td>{{ supplier.last_updated_by }}</td>
+                <td>{{supplier.corporate_website }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endblock %}
+
