@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'Supplier_Portal.wsgi.application'
 DATABASES = {  
     'default': {  
         'ENGINE': 'django.db.backends.mysql',  
-        'NAME': 'Supplier',  
+        'NAME': 'supplier',  
         'USER': 'root',  
         'PASSWORD': '1234',  
         'HOST': '127.0.0.1',  

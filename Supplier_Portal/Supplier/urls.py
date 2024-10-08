@@ -11,4 +11,5 @@ urlpatterns = [
     path('create-requisition/', views.create_requisition, name='create_requisition'),
     path('fetch-suppliers/', views.fetch_and_save_suppliers, name='fetch_and_save_suppliers'),
     path('suppliers/', views.display_suppliers, name='display_suppliers'),
+     path('suppliers/<int:supplier_id>/details/', views.fetch_supplier_details, name='supplier_details'),
 ]

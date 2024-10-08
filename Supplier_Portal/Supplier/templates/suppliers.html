@@ -1,15 +1,26 @@
-    {% load static %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suppliers List</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/suppliers.css' %}">
+</head>
+<body>
+
     {% include 'navbar.html' %}
+
     {% block content %}
     <h1>Suppliers List</h1>
 
     <form method="GET" action="{% url 'display_suppliers' %}">
-        <label for="q">Search by Supplier Number:</label>
+        <label for="q">Supplier Number:</label>
         <input type="text" name="q" placeholder="Enter Supplier Number" value="{{ query }}">
         <button type="submit">Search</button>
     </form>
 
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>Supplier Name</th>
@@ -17,21 +28,26 @@
                 <th>Status</th>
                 <th>Creation Date</th>
                 <th>Last Updated By</th>
-                <th>website</th>
             </tr>
         </thead>
         <tbody>
             {% for supplier in suppliers %}
             <tr>
-                <td>{{ supplier.supplier_name }}</td>
+                <td>
+                    <a href="{% url 'supplier_details' supplier.supplier_id %}">
+                        {{ supplier.supplier_name }}
+                    </a>
+                </td>
+
                 <td>{{ supplier.supplier_number }}</td>
                 <td>{{ supplier.status }}</td>
                 <td>{{ supplier.creation_date }}</td>
                 <td>{{ supplier.last_updated_by }}</td>
-                <td>{{supplier.corporate_website }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     {% endblock %}
 
+</body>
+</html>
