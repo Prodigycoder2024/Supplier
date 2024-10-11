@@ -1,155 +1,158 @@
-/* General page styling */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-}
 
-h1 {
-    text-align: center;
-    color: #2c3e50;
-    font-size: 2.5em;
-    margin-bottom: 20px;
-}
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
 
-/* Form styling */
-form {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-    padding: 0 15px;
-}
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
 
-form label {
-    font-weight: bold;
-    margin-right: 10px;
-}
+        /* Navbar styling */
+        .navbar {
+            background-color: #2c3e50;
+            padding: 15px;
+            text-align: center;
+        }
 
-input[type="text"] {
-    padding: 10px;
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-right: 15px;
-    margin-bottom: 10px; /* for smaller screens */
-}
+        .navbar a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-button {
-    padding: 10px 20px;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
-}
+        .navbar a:hover {
+            color: #f39c12;
+        }
 
-button:hover {
-    background-color: #2980b9;
-}
+        /* Form styling */
+        form {
+            display: flex;
+            justify-content: flex-start; /* Aligns the form elements to the left */
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding: 0 15px;
+            margin-left: 10%;
+        }
 
-/* Table styling */
-table {
-    width: 80%;
-    margin: 20px auto;
-    border-collapse: collapse;
-    border: 1px solid #ddd;
-    background-color: white;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    overflow-x: auto;
-}
+        form label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
 
-th, td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    word-wrap: break-word; /* prevents overflow for long text */
-}
+        input[type="text"] {
+            padding: 8px; /* Reduce padding for a smaller size */
+            width: 250px; /* Reduce the width */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+            margin-bottom: 10px; /* for smaller screens */
+        }
 
-th {
-    background-color: #f2f2f2;
-    color: #333;
-    font-weight: bold;
-}
+        .supplier-btn {
+            height: 40px; /* Reduce padding for a smaller size */
+            padding: 0px 8px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
 
-td {
-    color: #555;
-}
+        button:hover {
+            background-color: #2980b9;
+        }
 
-tr:hover {
-    background-color: #f5f5f5;
-}
+        /* Table styling */
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+            background-color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
 
-td a {
-    color: #3498db;
-    text-decoration: none;
-}
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            word-wrap: break-word; /* prevents overflow for long text */
+        }
 
-td a:hover {
-    text-decoration: underline;
-}
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
 
-/* Navbar styling */
-.navbar {
-    background-color: #2c3e50;
-    padding: 15px;
-    text-align: center;
-}
+        td {
+            color: #555;
+        }
 
-.navbar a {
-    color: white;
-    margin: 0 10px;
-    text-decoration: none;
-    font-weight: bold;
-}
+        tr:hover {
+            background-color: #f5f5f5;
+        }
 
-.navbar a:hover {
-    color: #f39c12;
-}
+        td a {
+            color: #3498db;
+            text-decoration: none;
+        }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2em;
-    }
+        td a:hover {
+            text-decoration: underline;
+        }
 
-    table {
-        width: 100%;
-        margin: 10px;
-    }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
 
-    th, td {
-        padding: 10px;
-        font-size: 0.9em;
-    }
+            table {
+                width: 100%;
+                margin: 10px;
+            }
 
-    input[type="text"] {
-        width: 100%;
-        margin-right: 0;
-    }
+            th, td {
+                padding: 10px;
+                font-size: 0.9em;
+            }
 
-    button {
-        width: 100%;
-        margin-top: 10px;
-    }
-}
+            input[type="text"] {
+                width: 100%;
+                margin-right: 0;
+            }
 
-@media (max-width: 480px) {
-    h1 {
-        font-size: 1.8em;
-    }
+            button {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
 
-    form {
-        flex-direction: column;
-        text-align: center;
-    }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+            }
 
-    table, th, td {
-        font-size: 0.8em;
-    }
-}
+            form {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            table, th, td {
+                font-size: 0.8em;
+            }
+        }
+    

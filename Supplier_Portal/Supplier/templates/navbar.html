@@ -9,10 +9,26 @@
     <!-- Link to Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <style>
+        /* Custom styling for active link underline */
+        .nav-link.active {
+            position: relative;
+            font-weight: bold;
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -5px;
+            height: 2px;
+            background-color: black; /* Black underline */
+        }
+    </style>
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Supplier Portal</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -20,13 +36,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'create_supplier' %}">Create Supplier</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'create_supplier' %}active{% endif %}" href="{% url 'create_supplier' %}">Create Supplier</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'create_requisition' %}">Create Requisition</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'create_requisition' %}active{% endif %}" href="{% url 'create_requisition' %}">Create Requisition</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'fetch_and_save_suppliers' %}">All Suppliers</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'fetch_and_save_suppliers' %}active{% endif %}" href="{% url 'fetch_and_save_suppliers' %}">All Suppliers</a>
                 </li>
             </ul>
         </div>

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 import requests
 from .forms import *
@@ -23,10 +23,12 @@ def fetch_and_save_suppliers(request):
 
     # Get search parameter (SupplierNumber) from the request
     query = request.GET.get('q')
-    
+    query_name = request.GET.get('query_n')
     # Add query parameter if present
     if query:
         url = f"{base_url}?q=SupplierNumber={query}"
+    if query_name:
+        url = f"{base_url}?q=Supplier={query_name}"
     else:
         url = f"{base_url}?limit=1000"  # Default to getting all suppliers
 
@@ -35,8 +37,9 @@ def fetch_and_save_suppliers(request):
 
     if response.status_code == 200:
         data = response.json()
+        
         suppliers = data.get('items', [])  # Assuming the supplier list is under 'items' key
-
+        
         # Loop through the supplier data and save to the database
         for supplier_data in suppliers:
             Supplier.objects.update_or_create(
@@ -92,6 +95,37 @@ def display_suppliers(request):
 
     # Render the suppliers list and pass the search query to the template
     return render(request, 'suppliers.html', {'suppliers': suppliers, 'query': query})
+
+
+
+
+def fetch_supplier_details(request, supplier_id):
+    # Get supplier object
+    supplier = get_object_or_404(Supplier, supplier_id=supplier_id)
+    
+    # API URLs for addresses and contacts
+    addresses_url = f"https://elbq-dev2.fa.us2.oraclecloud.com/fscmRestApi/resources/11.13.18.05/suppliers/{supplier_id}/child/addresses"
+    contacts_url = f"https://elbq-dev2.fa.us2.oraclecloud.com/fscmRestApi/resources/11.13.18.05/suppliers/{supplier_id}/child/contacts"
+    
+    username = 'mfg_portal'
+    password = 'Oracle@123'
+
+    # Fetch supplier addresses
+    addresses_response = requests.get(addresses_url, auth=HTTPBasicAuth(username, password))
+    addresses = addresses_response.json().get('items', []) if addresses_response.status_code == 200 else []
+
+    # Fetch supplier contacts
+    contacts_response = requests.get(contacts_url, auth=HTTPBasicAuth(username, password))
+    contacts = contacts_response.json().get('items', []) if contacts_response.status_code == 200 else []
+
+    # Render both addresses and contacts in the new template
+    return render(request, 'each_supplier.html', {
+        'supplier': supplier, 
+        'addresses': addresses,
+        'contacts': contacts
+    })
+
+
 
 
 

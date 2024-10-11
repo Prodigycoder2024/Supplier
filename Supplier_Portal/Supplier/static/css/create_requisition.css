@@ -1,26 +1,18 @@
 
-/* General styling for the body */
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f4f7fc;
-    margin: 0;
-    padding: 0;
-    color: #333;
-}
 
 /* Container to hold the form */
 .container {
-    max-width: 800px;
-    margin: 60px auto;
-    padding: 40px;
-    background-color: #fff;
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    max-width: 95%;
+    margin: 4px auto;
+    background-color: #ffffff;
+    /* padding: 25px; Slightly increased padding */
+    border-radius: 5px; /* Increased border-radius for softer edges */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1); /* Deeper shadow for depth */
 }
 
 .container:hover {
-    transform: scale(1.02); /* Slight hover effect for the form container */
+    transform: translateY(-10px); /* Subtle upward hover effect */
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15); /* Enhanced hover shadow effect */
 }
 
 /* Card and header design */
@@ -33,18 +25,17 @@ body {
 .card-header {
     background: #1f3e57;
     color: white;
-    padding: 20px;
+    padding: 25px;
     text-align: center;
-    font-size: 24px;
+    font-size: 26px;
     font-weight: bold;
     letter-spacing: 1.5px;
     border-radius: 15px 15px 0 0;
     text-transform: uppercase;
 }
 
-/* Heading styling */
 .card-header h2 {
-    font-size: 20px; /* Appropriately sized heading */
+    font-size: 22px; /* Slightly larger heading */
     margin: 0;
 }
 
@@ -53,14 +44,15 @@ body {
     background-color: #f1f1f1;
     border: none;
     border-radius: 12px;
-    padding: 15px;
+    padding: 18px;
     font-size: 16px;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease, border 0.3s ease;
 }
 
 .form-control-custom:focus {
-    box-shadow: 0 0 8px rgba(31, 62, 87, 0.6);
+    box-shadow: 0 0 10px rgba(31, 62, 87, 0.6);
+    border: 1px solid #1f3e57; /* Slight border for focus state */
     outline: none;
 }
 
@@ -68,56 +60,76 @@ body {
 label {
     font-weight: 600;
     color: #4b4b4b;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-    margin-bottom: 8px;
+    font-size: 15px;
+    letter-spacing: 0.6px;
+    margin-bottom: 10px;
 }
 
 /* Button styling */
 .btn-primary {
     background-color: #1f3e57;
     border: none;
-    padding: 15px 40px;
-    font-size: 16px;
+    padding: 16px 50px;
+    font-size: 17px;
     border-radius: 50px;
-    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
     font-weight: 600;
     letter-spacing: 1px;
+    cursor: pointer;
 }
 
 .btn-primary:hover {
     background-color: #163144;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(31, 62, 87, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(31, 62, 87, 0.4);
 }
 
 /* Error message styling */
 .text-danger {
-    font-size: 13px;
-    margin-top: 5px;
+    font-size: 14px;
+    margin-top: 6px;
+    color: #e74c3c;
 }
 
 /* Form group spacing */
 .form-group {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 .btn-lg {
-    padding: 12px 60px;
+    padding: 14px 60px;
+}
+
+/* Hover effect for form inputs */
+.form-control-custom:hover {
+    box-shadow: 0 0 6px rgba(31, 62, 87, 0.2);
+}
+
+/* Improved checkbox and radio styling */
+input[type="checkbox"], input[type="radio"] {
+    margin-right: 10px;
+}
+
+input[type="checkbox"]:focus, input[type="radio"]:focus {
+    outline: 2px solid #1f3e57;
 }
 
 /* Responsive styling for smaller screens */
 @media (max-width: 768px) {
     .btn-primary {
         width: 100%;
-        padding: 14px;
+        padding: 16px;
     }
 
     .container {
-        padding: 20px;
+        padding: 30px;
     }
 
     .form-group {
         margin-bottom: 20px;
+    }
+
+    .card-header {
+        font-size: 22px;
     }
 }
